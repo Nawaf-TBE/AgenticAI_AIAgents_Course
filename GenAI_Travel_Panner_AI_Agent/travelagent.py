@@ -6,6 +6,7 @@ from agno.agent import Agent
 from agno.tools.serpapi import SerpApiTools
 from agno.models.google import Gemini
 from datetime import datetime
+from dotenv import load_dotenv  # Add this import
 
 import streamlit as st
 
@@ -112,8 +113,10 @@ visa_required = st.sidebar.checkbox("🛃 Check Visa Requirements")
 travel_insurance = st.sidebar.checkbox("🛡️ Get Travel Insurance")
 currency_converter = st.sidebar.checkbox("💱 Currency Exchange Rates")
 
-SERPAPI_KEY = ""
-GOOGLE_API_KEY = ""
+load_dotenv()  # Load environment variables from .env
+
+SERPAPI_KEY = os.getenv("SERPAPI_KEY")
+GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 os.environ["GOOGLE_API_KEY"] = GOOGLE_API_KEY
 
 params = {
@@ -299,3 +302,18 @@ if st.button("🚀 Generate Travel Plan"):
     st.write(itinerary.content)
 
     st.success("✅ Travel plan generated successfully!")
+
+params = {
+    "q": "Coffee",
+    "location": "Austin, Texas, United States",
+    "hl": "en",
+    "gl": "us",
+    "google_domain": "google.com",
+    "api_key": "your_serpapi_key"
+}
+
+search = GoogleSearch(params)
+results = search.get_dict()
+print(results)
+
+print(GoogleSearch)
